@@ -1,7 +1,7 @@
 """
 TODO:
-    -get path of image instead of moving it here.
-    -pass in pixelsize as command line argument.
+    -hashmap and pixelsize.
+    -pass in pixelsize and image path as command line argument (argparse).
 """
 import sys
 import os
@@ -9,9 +9,11 @@ import cv2
 import argparse
 
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument("-n", action="store", dest="num", type=int)
-# results = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument("path", type=str, help="image path")
+parser.add_argument("pixelsize", type=int, help="pixelating size")
+args = parser.parse_args()
+
 # https://docs.python.org/3/library/argparse.html
 
 
@@ -53,36 +55,13 @@ def image_to_ascii(path, pixelsize):
 
     strs = ["" for x in range((yvalue + ypadding) // pixelsize)]
 
-    
-# hashmap and dictionary
+    dict = {10 :'@@', 31 :'$$', 52 :'##', 73 :'**', 94 :'!!', 115 :'==',
+            136 :';;', 157 :'::', 178 :'~~', 199 :'--', 220 :',,', 243 :'..',
+            255 :'  '}
+    # hashmap and dictionary
     for i in range(0, yvalue, pixelsize):
         for j in range(0, xvalue, pixelsize):
-            if(output[i, j] == 10):
-                strs[i// pixelsize] +="@@"
-            if(output[i, j] == 31):
-                strs[i// pixelsize] +="$$"
-            if(output[i, j] == 52):
-                strs[i// pixelsize] +="##"
-            if(output[i, j] == 73):
-                strs[i// pixelsize] +="**"
-            if(output[i, j] == 94):
-                strs[i// pixelsize] +="!!"
-            if(output[i, j] == 115):
-                strs[i// pixelsize] +="=="
-            if(output[i, j] == 136):
-                strs[i// pixelsize] +=";;"
-            if(output[i, j] == 157):
-                strs[i// pixelsize] +="::"
-            if(output[i, j] == 178):
-                strs[i// pixelsize] +="~~"
-            if(output[i, j] == 199):
-                strs[i// pixelsize] +="--"
-            if(output[i, j] == 220):
-                strs[i// pixelsize] +=",,"
-            if(output[i, j] == 243):
-                strs[i// pixelsize] +=".."
-            if(output[i, j] == 255):
-                strs[i// pixelsize] +="  "
+            strs[i// pixelsize] += dict[output[i, j]]
 
     for line in strs:
         print (line)
@@ -98,11 +77,7 @@ def image_to_ascii(path, pixelsize):
 
     cv2.waitKey(0)
 
-
-
-
-def main():
-    image_to_ascii(r"C:\\Users\\Tony Kim\\Downloads\\yoshi2.jpg", 10)
-
 if __name__ == "__main__":
-    main()
+    print(args.path)
+    print(args.pixelsize)
+    image_to_ascii(args.path, args.pixelsize)
