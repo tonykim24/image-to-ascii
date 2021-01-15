@@ -65,17 +65,12 @@ def image_to_ascii(path, pixelsize):
 
     for line in strs:
         print (line)
-    # cv2.imshow("cropped", picture)
 
-    cv2.imshow('Output', output)
-    image = cv2.copyMakeBorder(picture, 0, ypadding, 0, xpadding, cv2.BORDER_CONSTANT, None, 255)
-    cv2.imshow('border', image)
+    # image = cv2.copyMakeBorder(picture, 0, ypadding, 0, xpadding, cv2.BORDER_CONSTANT, None, 255)
 
-    print (strs)
-    print (yvalue + divider(yvalue))
-    print (xvalue + divider(xvalue))
-
-    cv2.waitKey(0)
+    with open("myfile.txt", "a") as file1: 
+        for line in strs:
+            file1.write(line + '\n')
 
 if __name__ == "__main__":
     print(args.path)
